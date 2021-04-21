@@ -45,6 +45,15 @@ function drawBarGraph(sampleID) {
 
     // Verify drawBarGraph function has been called
     console.log(`Draw bar graph plot(${sampleID}).`);
+
+    // Read data to create bar graph plot
+    d3.json("samples.json").then(data => {
+        var samples = data.samples;
+        var resultingArray = samples.filter(s => s.id == sampleID);
+
+        // Verify resultingArray
+        console.log(resultingArray);
+    });
 }
 
 // Create stub for function to draw bubble chart
@@ -71,6 +80,9 @@ function optionChanged(newSampleID) {
     drawBarGraph(newSampleID);
     drawBubbleChart(newSampleID);
     updateDemographicInfo(newSampleID);
+
+    // Bonus
+    // drawGauge(newSampleID);
 }
 
 // Call initialDashboard function
@@ -78,4 +90,3 @@ initialDashboard();
 
 // Verify initialDashboard function has been called
 console.log("initialDashboard() has been called.")
-
