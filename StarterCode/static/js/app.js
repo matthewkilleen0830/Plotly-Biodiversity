@@ -3,7 +3,7 @@ console.log("JavaScript app file is loaded.");
 
 // START OF CODE GIVEN IN CLASS OFFICE HOURS
 
-// Create function
+// Create function to pull in data, populate dropdown menu, and call other functions based on user selection
 function initialDashboard() {
 
     // Dropdown menu
@@ -26,17 +26,45 @@ function initialDashboard() {
 
         });
 
+        // Declare variable to store data from object array
+        var id = sampleNames[0];
+
+        // Call each function onto dashboard
+        drawBarGraph(id);
+        drawBubbleChart(id);
+        updateDemographicInfo(id);
+
+        // Bonus
+        // drawGauge(id);
+
     });
 
-    // Update bar chart plot with selected info from dropdown
-    // Update bubble chart plot with selected info from dropdown
-    // Update demographic info panel with selected info from dropdown
+// Create stub for function to draw horizontal bar chart
+function drawBarGraph(sampleID) {
+
+    // Verify drawBarGraph function has been called
+    console.log(`Draw bar graph plot(${sampleID}).`);
+}
+
+// Create stub for function to draw bubble chart
+function drawBubbleChart(sampleID) {
+
+    // Verify drawBubbleChart function has been called
+    console.log(`Draw bubble chart plot(${sampleID}).`);
+}
+
+// Create stub for function to update demographic info panel
+function updateDemographicInfo(sampleID) {
+
+    // Verify updateDemographicInfo function has been called
+    console.log(`Update demographic info panel(${sampleID}).`);
+}
 
 }
 
-// Call function
+// Call initialDashboard function
 initialDashboard();
 
-// Verify function has been called
+// Verify initialDashboard function has been called
 console.log("initialDashboard() has been called.")
 
