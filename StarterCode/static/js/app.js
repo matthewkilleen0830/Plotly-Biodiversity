@@ -46,13 +46,38 @@ function drawBarGraph(sampleID) {
     // Verify drawBarGraph function has been called
     console.log(`Draw bar graph plot(${sampleID}).`);
 
-    // Read data to create bar graph plot
+    // Read data and arrange for bar graph plotting
     d3.json("samples.json").then(data => {
         var samples = data.samples;
-        var resultingArray = samples.filter(s => s.id == sampleID);
+        var barResultArray = samples.filter(s => s.id == sampleID);
+        var barResult = barResultArray[0];
+        var otu_ids = barResult.otu_ids;
+        var otu_labels = barResult.otu_labels;
+        var sample_values = barResult.sample_values;
 
-        // Verify resultingArray
-        console.log(resultingArray);
+        // Define horizontal bar chart y labels
+        yticks = otu_ids.slice(0, 10).map(otuId => `OTU ${otuId}`).reverse();
+
+        // Define horizontal bar chart and x and y values
+        var barData = {
+            x:  sample_values.slice(0, 10).reverse(),
+            y:  yticks,
+            type:  "bar",
+            text:  otu_labels.slice(0, 10).reverse(),
+            orientation:  "h"
+        }
+
+        // Declare variable to store data
+        var barArray = [barData];
+
+        // Define horizontal bar chart layout and title
+        var barLayout = {
+            title:  "Top 10 Bacteria Cultures Found",
+            margin:  {t:  30, l:  150}
+        }
+
+        // Plot horizontal bar chart
+        Plotly.newPlot("bar", barArray, barLayout);
     });
 }
 
