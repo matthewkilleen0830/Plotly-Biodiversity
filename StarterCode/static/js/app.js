@@ -49,11 +49,11 @@ function drawBarGraph(sampleID) {
     // Read data and arrange for bar graph plotting
     d3.json("samples.json").then(data => {
         var samples = data.samples;
-        var barResultArray = samples.filter(s => s.id == sampleID);
-        var barResult = barResultArray[0];
-        var otu_ids = barResult.otu_ids;
-        var otu_labels = barResult.otu_labels;
-        var sample_values = barResult.sample_values;
+        var resultArray = samples.filter(s => s.id == sampleID);
+        var result = resultArray[0];
+        var otu_ids = result.otu_ids;
+        var otu_labels = result.otu_labels;
+        var sample_values = result.sample_values;
 
         // Define horizontal bar chart y labels
         yticks = otu_ids.slice(0, 10).map(otuId => `OTU ${otuId}`).reverse();
@@ -67,7 +67,7 @@ function drawBarGraph(sampleID) {
             orientation:  "h"
         }
 
-        // Declare variable to store data
+        // Declare variable to store object data
         var barArray = [barData];
 
         // Define horizontal bar chart layout and title
@@ -84,9 +84,71 @@ function drawBarGraph(sampleID) {
 // Create stub for function to draw bubble chart
 function drawBubbleChart(sampleID) {
 
-    // Verify drawBubbleChart function has been called
+    // // Verify drawBubbleChart function has been called
     console.log(`Draw bubble chart plot(${sampleID}).`);
+
+    // Read data and arrange for bubble chart plotting
+    d3.json("samples.json").then(data => {
+        var samples = data.samples;
+        var resultArray = samples.filter(s => s.id == sampleID);
+        var result = resultArray[0];
+        var otu_ids = result.otu_ids;
+        var otu_labels = result.otu_labels;
+        var sample_values = result.sample_values;
+
+        // Define bubble chart x and y values
+        var bubbData = {
+            x:  otu_ids,
+            y:  sample_values,
+            text:  otu_labels,
+            mode:  "markers",
+            marker:  {
+                size:  sample_values,
+                color:  otu_ids,
+            }
+        };
+
+        // Declare variable to store object data
+        var bubbArray = [bubbData];
+
+        // Define bubble chart layout and axis titles
+        var bubbLayout = {
+            xaxis:  {
+                title:  {
+                    text:  "OTU ID",
+                },
+            },
+            yaxis:  {
+                title:  {
+                    text:  "Sample Values",
+                },
+            },
+        };
+
+        // Plot bubble chart
+        Plotly.newPlot("bubble", bubbArray, bubbLayout);
+
+    });
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create stub for function to update demographic info panel
 function updateDemographicInfo(sampleID) {
