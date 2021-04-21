@@ -13,7 +13,7 @@ function initialDashboard() {
     d3.json("samples.json").then(data => {
 
         // Verify data has been read in
-        console.log(data);
+        // console.log(data);
 
         // Declare variable to store sample IDs
         var sampleNames = data.names;
@@ -38,6 +38,7 @@ function initialDashboard() {
         // drawGauge(id);
 
     });
+}
 
 // Create stub for function to draw horizontal bar chart
 function drawBarGraph(sampleID) {
@@ -60,6 +61,16 @@ function updateDemographicInfo(sampleID) {
     console.log(`Update demographic info panel(${sampleID}).`);
 }
 
+// Create event handler to call function on user selection
+function optionChanged(newSampleID) {
+
+    // Verify event handler
+    console.log(`User selected ID (${newSampleID}).`);
+
+    // Call functions to draw bar graph plot, bubble chart plot, and update demographic info panel
+    drawBarGraph(newSampleID);
+    drawBubbleChart(newSampleID);
+    updateDemographicInfo(newSampleID);
 }
 
 // Call initialDashboard function
