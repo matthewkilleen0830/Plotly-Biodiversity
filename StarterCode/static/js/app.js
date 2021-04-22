@@ -211,21 +211,19 @@ function updateDemographicInfo(sampleID) {
     // Verify updateDemographicInfo function has been called
     console.log(`Update demographic info panel(${sampleID}).`);
 
-    // // Read data and arrange for gauge chart plotting
-    // d3.json("samples.json").then(data => {
-    //     var samples = data.samples;
-    //     var resultArray = samples.filter(s => s.id == sampleID);
-    //     var result = resultArray[0];
-    //     var otu_ids = result.otu_ids;
-    //     var otu_labels = result.otu_labels;
-    //     var sample_values = result.sample_values;
+    // // Read data and arrange for demographic info panel
+    d3.json("samples.json").then(data => {
+        var metadata = data.metadata;
+        var resultArray = metadata.filter(s => s.id == sampleID);
+        var result = resultArray[0];
 
     // // Declare variable to reference HTML element
-    // var demographicPanel = d3.select("#sample-metadata");
-    // demographicPanel.html("");
-    // Object.entries(data).forEach(([key, value]) => {
-    //     demographicPanel.append.text(`${key}:  ${value}`);
-    // });
+    var demographicPanel = d3.select("#sample-metadata");
+    demographicPanel.html("");
+    Object.entries(result).forEach(([key, value]) => {
+        demographicPanel.append("h6").text(`${key.toUpperCase()}:  ${value}`);
+    });
+});
 }
 
 // Create event handler to call function on user selection
