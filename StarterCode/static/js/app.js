@@ -141,32 +141,29 @@ function drawBubbleChart(sampleID) {
 // GAUGE CHART ------------------------------------------------
 
 // Create stub for function to draw gauge chart
-function drawGaugeChart(sampleID) {
+function drawGaugeChart(wfreq) {
 
     // // Verify drawGaugeChart function has been called
-    console.log(`Draw gauge chart plot(${sampleID}).`);
+    // console.log(`Draw gauge chart plot(${sampleID}).`);
 
     // Read data and arrange for gauge chart plotting
-    d3.json("samples.json").then(data => {
-        var samples = data.samples;
-        var resultArray = samples.filter(s => s.id == sampleID);
-        var result = resultArray[0];
-        var otu_ids = result.otu_ids;
-        var otu_labels = result.otu_labels;
-        var sample_values = result.sample_values;
-        var wfreq = result.wfreq;
+    // d3.json("samples.json").then(data => {
+    //     var samples = data.samples;
+    //     var resultArray = samples.filter(s => s.id == sampleID);
+    //     var result = resultArray[0];
+    //     var wfreq = result.wfreq;
+    var intervals = parseFloat(wfreq) * 20;
 
-        // Define gauge chart values
-        var gaugeData = [
+    // Define gauge chart values
+    var gaugeData = [
             {
                 domain:  {x: [0, 1], y:  [0, 1]},
-                value:  420,
+                value:  wfreq,
                 title:  {text:  "Belly Button Washing Frequency"},
                 type:  "indicator",
-                mode:  "gauge+number+delta",
-                delta:  {reference:  400, increasing:  {color:  "RebeccaPurple"}},
+                mode:  "gauge",
                 gauge:  {
-                    axis:  {range:  [0, 9], tickwidth:  1, tickcolor:  "darkblue"},
+                    axis:  {range:  [0, 9], tickwidth:  1, tickmode: "linear", tickcolor:  "darkblue"},
                     bar:  {color:  "darkblue"},
                     bgcolor:  "white",
                     borderwidth:  2,
@@ -182,12 +179,17 @@ function drawGaugeChart(sampleID) {
                         {range:  [7, 8], color: "#8abb8f"},
                         {range:  [8, 9], color: "#85b48a"}
                     ],
+                threshold:  {
+                    line:  {color:  "red", width: 5},
+                    thickness:  0.5,
+                    value:  wfreq
+                    }
                 }
             }
         ];
 
         // Declare variable to store object data
-        var gaugeArray = [gaugeData];
+        //var gaugeArray = [gaugeData];
 
         // Define gauge chart layout
         var gaugeLayout = {
@@ -197,9 +199,7 @@ function drawGaugeChart(sampleID) {
         };
 
         // Plot gauge chart
-        Plotly.newPlot("gauge", gaugeArray, gaugeLayout);
-
-    });
+        Plotly.newPlot("gauge", gaugeData, gaugeLayout);
 
 }
 
@@ -223,6 +223,7 @@ function updateDemographicInfo(sampleID) {
     Object.entries(result).forEach(([key, value]) => {
         demographicPanel.append("h6").text(`${key.toUpperCase()}:  ${value}`);
     });
+    drawGaugeChart(result.wfreq);
 });
 }
 
