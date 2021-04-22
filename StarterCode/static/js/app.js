@@ -32,7 +32,7 @@ function initialDashboard() {
         // Call each function onto dashboard
         drawBarGraph(id);
         drawBubbleChart(id);
-        // updateDemographicInfo(id)
+        updateDemographicInfo(id)
         drawGaugeChart(id);
 
     });
@@ -154,24 +154,34 @@ function drawGaugeChart(sampleID) {
         var otu_ids = result.otu_ids;
         var otu_labels = result.otu_labels;
         var sample_values = result.sample_values;
-        var scrubFreq = result.scrubFreq;
+        var wfreq = result.wfreq;
 
         // Define gauge chart values
         var gaugeData = [
             {
                 domain:  {x: [0, 1], y:  [0, 1]},
-                value:  270,
+                value:  420,
                 title:  {text:  "Belly Button Washing Frequency"},
                 type:  "indicator",
-                mode:  "gauge",
+                mode:  "gauge+number+delta",
+                delta:  {reference:  400, increasing:  {color:  "RebeccaPurple"}},
                 gauge:  {
-                    axis:  {
-                        range:  [0, 9],
-                        tickmode:  "linear",
-                        tickfont:  {
-                            size:  12
-                        }
-                    }
+                    axis:  {range:  [0, 9], tickwidth:  1, tickcolor:  "darkblue"},
+                    bar:  {color:  "darkblue"},
+                    bgcolor:  "white",
+                    borderwidth:  2,
+                    bordercolor:  "gray",
+                    steps: [
+                        {range: [0, 1], color:  "#f8f3ec"},
+                        {range:  [1, 2], color: "#f4f1e5"},
+                        {range:  [2, 3], color: "#e9e6ca"},
+                        {range:  [3, 4], color: "#e5e7b3"},
+                        {range:  [4, 5], color: "#d5e49d"},
+                        {range:  [5, 6], color: "#b7cc92"},
+                        {range:  [6, 7], color: "#8cbf88"},
+                        {range:  [7, 8], color: "#8abb8f"},
+                        {range:  [8, 9], color: "#85b48a"}
+                    ],
                 }
             }
         ];
@@ -181,12 +191,9 @@ function drawGaugeChart(sampleID) {
 
         // Define gauge chart layout
         var gaugeLayout = {
-            width:  600,
-            height:  500,
-            margin:  {
-                t:  0,
-                b:  0
-            }
+            width:  500,
+            height:  400,
+            margin:  {t:  25, r:  25, l:  25, b:  25},
         };
 
         // Plot gauge chart
@@ -199,17 +206,27 @@ function drawGaugeChart(sampleID) {
 // DEMOGRAPHIC INFO PANEL -------------------------------------
 
 // Create stub for function to update demographic info panel
-// function updateDemographicInfo(sampleID) {
+function updateDemographicInfo(sampleID) {
 
-//     // Verify updateDemographicInfo function has been called
-//     console.log(`Update demographic info panel(${sampleID}).`);
+    // Verify updateDemographicInfo function has been called
+    console.log(`Update demographic info panel(${sampleID}).`);
 
-//     // Filter for ID selected in dropdown menu
-//     var individualData = data.metadata.filter(individual => individual.id == id)
+    // // Read data and arrange for gauge chart plotting
+    // d3.json("samples.json").then(data => {
+    //     var samples = data.samples;
+    //     var resultArray = samples.filter(s => s.id == sampleID);
+    //     var result = resultArray[0];
+    //     var otu_ids = result.otu_ids;
+    //     var otu_labels = result.otu_labels;
+    //     var sample_values = result.sample_values;
 
-//     // forEach loop through data to retrieve each key-value pair?
-
-// }
+    // // Declare variable to reference HTML element
+    // var demographicPanel = d3.select("#sample-metadata");
+    // demographicPanel.html("");
+    // Object.entries(data).forEach(([key, value]) => {
+    //     demographicPanel.append.text(`${key}:  ${value}`);
+    // });
+}
 
 // Create event handler to call function on user selection
 function optionChanged(newSampleID) {
@@ -220,7 +237,7 @@ function optionChanged(newSampleID) {
     // Call functions to draw bar graph plot, bubble chart plot, and update demographic info panel
     drawBarGraph(newSampleID);
     drawBubbleChart(newSampleID);
-    // updateDemographicInfo(newSampleID);
+    updateDemographicInfo(newSampleID);
     drawGaugeChart(newSampleID);
 
 }
@@ -229,4 +246,4 @@ function optionChanged(newSampleID) {
 initialDashboard();
 
 // Verify initialDashboard function has been called
-console.log("initialDashboard() has been called.")
+console.log("initialDashboard() has been called.");
