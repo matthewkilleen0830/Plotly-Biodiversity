@@ -13,7 +13,7 @@ function initialDashboard() {
     d3.json("samples.json").then(data => {
 
         // Verify data has been read in
-        // console.log(data);
+        console.log(data);
 
         // Declare variable to store sample IDs
         var sampleNames = data.names;
@@ -32,13 +32,13 @@ function initialDashboard() {
         // Call each function onto dashboard
         drawBarGraph(id);
         drawBubbleChart(id);
-        updateDemographicInfo(id);
-
-        // Bonus
-        // drawGauge(id);
+        // updateDemographicInfo(id)
+        drawGaugeChart(id);
 
     });
 }
+
+// HORIZONTAL BAR CHART ---------------------------------------
 
 // Create stub for function to draw horizontal bar chart
 function drawBarGraph(sampleID) {
@@ -78,8 +78,14 @@ function drawBarGraph(sampleID) {
 
         // Plot horizontal bar chart
         Plotly.newPlot("bar", barArray, barLayout);
+
     });
+
 }
+
+// END OF CODE GIVEN IN CLASS OFFICE HOURS
+
+// BUBBLE CHART -----------------------------------------------
 
 // Create stub for function to draw bubble chart
 function drawBubbleChart(sampleID) {
@@ -132,30 +138,78 @@ function drawBubbleChart(sampleID) {
 
 }
 
+// GAUGE CHART ------------------------------------------------
 
+// Create stub for function to draw gauge chart
+function drawGaugeChart(sampleID) {
 
+    // // Verify drawGaugeChart function has been called
+    console.log(`Draw gauge chart plot(${sampleID}).`);
 
+    // Read data and arrange for gauge chart plotting
+    d3.json("samples.json").then(data => {
+        var samples = data.samples;
+        var resultArray = samples.filter(s => s.id == sampleID);
+        var result = resultArray[0];
+        var otu_ids = result.otu_ids;
+        var otu_labels = result.otu_labels;
+        var sample_values = result.sample_values;
+        var scrubFreq = result.scrubFreq;
 
+        // Define gauge chart values
+        var gaugeData = [
+            {
+                domain:  {x: [0, 1], y:  [0, 1]},
+                value:  270,
+                title:  {text:  "Belly Button Washing Frequency"},
+                type:  "indicator",
+                mode:  "gauge",
+                gauge:  {
+                    axis:  {
+                        range:  [0, 9],
+                        tickmode:  "linear",
+                        tickfont:  {
+                            size:  12
+                        }
+                    }
+                }
+            }
+        ];
 
+        // Declare variable to store object data
+        var gaugeArray = [gaugeData];
 
+        // Define gauge chart layout
+        var gaugeLayout = {
+            width:  600,
+            height:  500,
+            margin:  {
+                t:  0,
+                b:  0
+            }
+        };
 
+        // Plot gauge chart
+        Plotly.newPlot("gauge", gaugeArray, gaugeLayout);
 
+    });
 
+}
 
-
-
-
-
-
-
-
+// DEMOGRAPHIC INFO PANEL -------------------------------------
 
 // Create stub for function to update demographic info panel
-function updateDemographicInfo(sampleID) {
+// function updateDemographicInfo(sampleID) {
 
-    // Verify updateDemographicInfo function has been called
-    console.log(`Update demographic info panel(${sampleID}).`);
-}
+//     // Verify updateDemographicInfo function has been called
+//     console.log(`Update demographic info panel(${sampleID}).`);
+
+//     // Filter for ID selected in dropdown menu
+//     var individualData = data.metadata.filter(individual => individual.id == id)
+
+//     // forEach loop through data to retrieve each key-value pair?
+
+// }
 
 // Create event handler to call function on user selection
 function optionChanged(newSampleID) {
@@ -166,10 +220,9 @@ function optionChanged(newSampleID) {
     // Call functions to draw bar graph plot, bubble chart plot, and update demographic info panel
     drawBarGraph(newSampleID);
     drawBubbleChart(newSampleID);
-    updateDemographicInfo(newSampleID);
+    // updateDemographicInfo(newSampleID);
+    drawGaugeChart(newSampleID);
 
-    // Bonus
-    // drawGauge(newSampleID);
 }
 
 // Call initialDashboard function
