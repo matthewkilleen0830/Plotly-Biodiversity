@@ -10,7 +10,7 @@ function initialDashboard() {
     var selector = d3.select("#selDataset");
 
     // Use the D3 library to read in samples.json
-    d3.json("samples.json").then(data => {
+    d3.json("./data/samples.json").then(data => {
 
         // Verify data has been read in
         // console.log(data);
@@ -47,7 +47,7 @@ function drawBarGraph(sampleID) {
     // console.log(`Draw bar graph plot(${sampleID}).`);
 
     // Read data and arrange for bar graph plotting
-    d3.json("samples.json").then(data => {
+    d3.json("./data/samples.json").then(data => {
         var samples = data.samples;
         var resultArray = samples.filter(s => s.id == sampleID);
         var result = resultArray[0];
@@ -94,7 +94,7 @@ function drawBubbleChart(sampleID) {
     // console.log(`Draw bubble chart plot(${sampleID}).`);
 
     // Read data and arrange for bubble chart plotting
-    d3.json("samples.json").then(data => {
+    d3.json("./data/samples.json").then(data => {
         var samples = data.samples;
         var resultArray = samples.filter(s => s.id == sampleID);
         var result = resultArray[0];
@@ -201,7 +201,7 @@ function updateDemographicInfo(sampleID) {
     // console.log(`Update demographic info panel(${sampleID}).`);
 
     // // Read data and arrange for demographic info panel
-    d3.json("samples.json").then(data => {
+    d3.json("./data/samples.json").then(data => {
         var metadata = data.metadata;
         var resultArray = metadata.filter(s => s.id == sampleID);
         var result = resultArray[0];
