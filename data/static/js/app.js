@@ -76,8 +76,11 @@ function drawBarGraph(sampleID) {
             margin:  {t:  30, l:  150}
         }
 
+        // Make plot responsive within Bootstrap container
+        var config = {responsive:  true}
+
         // Plot horizontal bar chart
-        Plotly.newPlot("bar", barArray, barLayout);
+        Plotly.newPlot("bar", barArray, barLayout, config);
 
     });
 
@@ -131,8 +134,11 @@ function drawBubbleChart(sampleID) {
             },
         };
 
+        // Make plot responsive within Bootstrap container
+        var config = {responsive:  true}
+
         // Plot bubble chart
-        Plotly.newPlot("bubble", bubbArray, bubbLayout);
+        Plotly.newPlot("bubble", bubbArray, bubbLayout, config);
 
     });
 
@@ -187,8 +193,11 @@ function drawGaugeChart(wfreq) {
             margin:  {t:  0, r:  0, l:  0, b:  0},
         };
 
+        // Make plot responsive within Bootstrap container
+        var config = {responsive:  true}
+
         // Plot gauge chart
-        Plotly.newPlot("gauge", gaugeData, gaugeLayout);
+        Plotly.newPlot("gauge", gaugeData, gaugeLayout, config);
 
 }
 
