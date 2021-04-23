@@ -1,5 +1,5 @@
 // Verify that app.js is loaded by index.html
-console.log("JavaScript app file is loaded.");
+// console.log("JavaScript app file is loaded.");
 
 // START OF CODE GIVEN IN CLASS OFFICE HOURS
 
@@ -13,7 +13,7 @@ function initialDashboard() {
     d3.json("samples.json").then(data => {
 
         // Verify data has been read in
-        console.log(data);
+        // console.log(data);
 
         // Declare variable to store sample IDs
         var sampleNames = data.names;
@@ -40,11 +40,11 @@ function initialDashboard() {
 
 // HORIZONTAL BAR CHART ---------------------------------------
 
-// Create stub for function to draw horizontal bar chart
+// Create function to draw horizontal bar chart
 function drawBarGraph(sampleID) {
 
     // Verify drawBarGraph function has been called
-    console.log(`Draw bar graph plot(${sampleID}).`);
+    // console.log(`Draw bar graph plot(${sampleID}).`);
 
     // Read data and arrange for bar graph plotting
     d3.json("samples.json").then(data => {
@@ -87,11 +87,11 @@ function drawBarGraph(sampleID) {
 
 // BUBBLE CHART -----------------------------------------------
 
-// Create stub for function to draw bubble chart
+// Create function to draw bubble chart
 function drawBubbleChart(sampleID) {
 
     // // Verify drawBubbleChart function has been called
-    console.log(`Draw bubble chart plot(${sampleID}).`);
+    // console.log(`Draw bubble chart plot(${sampleID}).`);
 
     // Read data and arrange for bubble chart plotting
     d3.json("samples.json").then(data => {
@@ -140,31 +140,23 @@ function drawBubbleChart(sampleID) {
 
 // GAUGE CHART ------------------------------------------------
 
-// Create stub for function to draw gauge chart
+// Create function to draw gauge chart
 function drawGaugeChart(wfreq) {
 
-    // // Verify drawGaugeChart function has been called
-    // console.log(`Draw gauge chart plot(${sampleID}).`);
-
-    // Read data and arrange for gauge chart plotting
-    // d3.json("samples.json").then(data => {
-    //     var samples = data.samples;
-    //     var resultArray = samples.filter(s => s.id == sampleID);
-    //     var result = resultArray[0];
-    //     var wfreq = result.wfreq;
+    // Divide 180 degree half circle into 9 parts
     var intervals = parseFloat(wfreq) * 20;
 
-    // Define gauge chart values
+    // Define gauge chart values and ranges
     var gaugeData = [
             {
                 domain:  {x: [0, 1], y:  [0, 1]},
                 value:  wfreq,
-                title:  {text:  "Belly Button Washing Frequency"},
+                title:  {text:  "Belly Button Washing Frequency per Week"},
                 type:  "indicator",
                 mode:  "gauge",
                 gauge:  {
                     axis:  {range:  [0, 9], tickwidth:  1, tickmode: "linear", tickcolor:  "darkblue"},
-                    bar:  {color:  "darkblue"},
+                    bar:  {color:  "#1f77b4"},
                     bgcolor:  "white",
                     borderwidth:  2,
                     bordercolor:  "gray",
@@ -180,7 +172,7 @@ function drawGaugeChart(wfreq) {
                         {range:  [8, 9], color: "#85b48a"}
                     ],
                 threshold:  {
-                    line:  {color:  "red", width: 5},
+                    line:  {color:  "#d77270", width: 4},
                     thickness:  0.5,
                     value:  wfreq
                     }
@@ -188,14 +180,11 @@ function drawGaugeChart(wfreq) {
             }
         ];
 
-        // Declare variable to store object data
-        //var gaugeArray = [gaugeData];
-
         // Define gauge chart layout
         var gaugeLayout = {
             width:  500,
-            height:  400,
-            margin:  {t:  25, r:  25, l:  25, b:  25},
+            height:  500,
+            margin:  {t:  0, r:  0, l:  0, b:  0},
         };
 
         // Plot gauge chart
@@ -205,11 +194,11 @@ function drawGaugeChart(wfreq) {
 
 // DEMOGRAPHIC INFO PANEL -------------------------------------
 
-// Create stub for function to update demographic info panel
+// Create function to update demographic info panel
 function updateDemographicInfo(sampleID) {
 
     // Verify updateDemographicInfo function has been called
-    console.log(`Update demographic info panel(${sampleID}).`);
+    // console.log(`Update demographic info panel(${sampleID}).`);
 
     // // Read data and arrange for demographic info panel
     d3.json("samples.json").then(data => {
@@ -217,12 +206,14 @@ function updateDemographicInfo(sampleID) {
         var resultArray = metadata.filter(s => s.id == sampleID);
         var result = resultArray[0];
 
-    // // Declare variable to reference HTML element
+    // // Declare variable to reference HTML element and append data to panel
     var demographicPanel = d3.select("#sample-metadata");
     demographicPanel.html("");
     Object.entries(result).forEach(([key, value]) => {
         demographicPanel.append("h6").text(`${key.toUpperCase()}:  ${value}`);
     });
+
+    // Plot gauge chart
     drawGaugeChart(result.wfreq);
 });
 }
@@ -231,9 +222,9 @@ function updateDemographicInfo(sampleID) {
 function optionChanged(newSampleID) {
 
     // Verify event handler
-    console.log(`User selected ID (${newSampleID}).`);
+    // console.log(`User selected ID (${newSampleID}).`);
 
-    // Call functions to draw bar graph plot, bubble chart plot, and update demographic info panel
+    // Call functions to draw bar graph plot, bubble chart plot, update demographic info panel, and gauge chart
     drawBarGraph(newSampleID);
     drawBubbleChart(newSampleID);
     updateDemographicInfo(newSampleID);
@@ -245,4 +236,4 @@ function optionChanged(newSampleID) {
 initialDashboard();
 
 // Verify initialDashboard function has been called
-console.log("initialDashboard() has been called.");
+// console.log("initialDashboard() has been called.");
